@@ -62,7 +62,7 @@ public class ContentController {
     }
 
 
-    @PutMapping("cv/id/{cvID}")
+    @PostMapping("cv/id/{cvID}/update")
     public ResponseEntity<Object> updateCV(@RequestBody Map<String, String> request, @PathVariable String cvID) {
         CvContent cvContent = cvContentRepository.findById(Long.parseLong(cvID)).get();
         cvContent.name = request.get("name");
@@ -72,6 +72,12 @@ public class ContentController {
         cvContent.summary = request.get("summary");
         cvContent.skills = request.get("skills");
         cvContentRepository.save(cvContent);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("cv/id/{cvID}/delete")
+    public ResponseEntity<Object> deleteCV( @PathVariable String cvID) {
+        cvContentRepository.deleteById(Long.parseLong(cvID));
         return ResponseEntity.accepted().build();
     }
 }
